@@ -17,9 +17,8 @@ import net.md_5.bungee.api.ChatColor;
  
 public class Menu implements Listener {
  
-	private ItemStack menuopenitem;
-	
 	private ItemStack katka, survival, blockmaster, creative, pumpkinHunt;
+		private ItemStack menuopenitem;
 	
 	public Menu() {
 		
@@ -28,9 +27,7 @@ public class Menu implements Listener {
 		katka = createItemWithTitle(Material.GOLD_BLOCK, ChatColor.YELLOW + "Katsojien kaupunki");
 		pumpkinHunt = createItemWithTitle(Material.JACK_O_LANTERN, ChatColor.GOLD + "Pumpkin Hunt");
 		survival = createItemWithTitle(Material.GRASS, ChatColor.GREEN + "Survival");
-		
 		menuopenitem = createItemWithTitle(Material.COMPASS, ChatColor.DARK_PURPLE + "Avaa valikko");
-	
 	}
 	
 	private ItemStack createItemWithTitle(Material itemType, String title) {
@@ -45,14 +42,14 @@ public class Menu implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player p = (Player) event.getPlayer();
 		p.getInventory().clear();
-        p.getInventory().setItem(0, menuopenitem);
+       	p.getInventory().setItem(0, menuopenitem);
 	}
-	
+
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		ItemStack handItem = event.getPlayer().getInventory().getItemInMainHand();
 		if (handItem.equals(menuopenitem) &&
-				(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+			(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 			openMenu(event.getPlayer());
 		}
 	}
@@ -110,7 +107,7 @@ public class Menu implements Listener {
 	@EventHandler
 	public void playerDropItem(PlayerDropItemEvent event) {
 		if (event.getItemDrop().getItemStack().getType() == Material.COMPASS) {
-				event.setCancelled(true);
+			event.setCancelled(true);
 		}
 	}
 }
