@@ -91,13 +91,13 @@ public class Menu implements Listener {
 	}
 	
 	//Tämä metodi estää hotbaarissa olevan tietyn itemin siirtämisen.
-    @EventHandler
-    public void onInv(InventoryClickEvent e) {
-        e.getWhoClicked();
-        if(e.getCurrentItem().getType() == Material.COMPASS) {
-            e.setCancelled(true);
-        }
-    }
+	@EventHandler
+	public void onInv(InventoryClickEvent e) {
+		e.getWhoClicked();
+		if(e.getCurrentItem().getType() == Material.COMPASS) {
+			e.setCancelled(true);
+		}
+    	}
 	
 	//Tässä luodaan se itse inventory, eli mikä itemi on missäkin kohtaa ja määritetään sen nimi ja koko.
 	private Inventory createservermenu(Player player) {
