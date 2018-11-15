@@ -1,5 +1,5 @@
 package com.Allu.slinkoncraft;
-
+//tässä näkyy erilaiset importit, jotka saa kun painaa "ctrl" + shift + o (ei nolla vaan o)
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,13 +15,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import net.md_5.bungee.api.ChatColor;
  
+//--HUOM!!! huomatkaa, että tähän pitää lisätä tuo "implements Listener", jos sitä ei ole siinä.--
 public class Menu implements Listener {
  
 	private ItemStack katka, survival, blockmaster, creative, pumpkinHunt;
-		private ItemStack menuopenitem;
+	private ItemStack menuopenitem;
 	
+	//Tässä siis määritetään aluksi mitä itemeitä on ja millaisia ne on, eli mikä blockki se on ja mikä nimi.
 	public Menu() {
-		
 		blockmaster = createItemWithTitle(Material.PURPUR_BLOCK, ChatColor.LIGHT_PURPLE + "Blockmaster");
 		creative = createItemWithTitle(Material.CRAFTING_TABLE, ChatColor.BLUE + "Creative");
 		katka = createItemWithTitle(Material.GOLD_BLOCK, ChatColor.YELLOW + "Katsojien kaupunki");
@@ -30,6 +31,7 @@ public class Menu implements Listener {
 		menuopenitem = createItemWithTitle(Material.COMPASS, ChatColor.DARK_PURPLE + "Avaa valikko");
 	}
 	
+	//Tämä metodi luo ne itemit (tuossa ylempänä siis kerrotaan tällä metodille minkälaisia itemeitä pitää luoda.
 	private ItemStack createItemWithTitle(Material itemType, String title) {
 		ItemStack is = new ItemStack(itemType, 1);
 		ItemMeta meta = is.getItemMeta();
@@ -38,13 +40,15 @@ public class Menu implements Listener {
 		return is;
 	}
 	
+	//Tämä metodi suoritetaan automaattisesti, kun pelaaja liittyy serverille.
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player p = (Player) event.getPlayer();
 		p.getInventory().clear();
        	p.getInventory().setItem(0, menuopenitem);
 	}
-
+	
+	//Tämä metodi katsoo, jos pelaaja klikkaa tässä määritettyä valikonavaus itemiä ja sitten kutsuu *OpenMenu* metodia
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		ItemStack handItem = event.getPlayer().getInventory().getItemInMainHand();
@@ -54,6 +58,7 @@ public class Menu implements Listener {
 		}
 	}
 	
+	//Kun tätä metodia kutsutaan niin tämä kutsuu "createservermenu" metodia, joka luo sen ja tämä metodi avaan sen kyseiselle pelaajalle.
 	public void openMenu(Player player) {
 		player.openInventory(createservermenu(player));	
 	}
@@ -65,6 +70,7 @@ public class Menu implements Listener {
 		handleInventoryClickEvent(item, player, null);
 	}
 	
+	//Tässä katsotaan, että mitä itemiä pelaaja on klikannut ja suoritetaan asiat sen mukaan.
 	public void handleInventoryClickEvent(ItemStack is, Player player, PlayerInteractEvent event) {
 		
 		if (is.equals(katka)) {
@@ -84,6 +90,7 @@ public class Menu implements Listener {
 		}
 	}
 	
+	//Tämä metodi estää hotbaarissa olevan tietyn itemin siirtämisen.
     @EventHandler
     public void onInv(InventoryClickEvent e) {
 	    e.getWhoClicked();
@@ -92,6 +99,7 @@ public class Menu implements Listener {
 	    }
     }
 	
+	//Tässä luodaan se itse inventory, eli mikä itemi on missäkin kohtaa ja määritetään sen nimi ja koko.
 	private Inventory createservermenu(Player player) {
 		Inventory inv = Slinkoncraftmenu.plugin.getServer().createInventory(null, 27, "Valitse pelimuoto");
 		
@@ -104,6 +112,7 @@ public class Menu implements Listener {
 		return inv;
 	}
 	
+	//tämä metodi estää sen, että pelaaja ei pysty pudottamaan hotbaarissa olevaa tiettyä itemiä.
 	@EventHandler
 	public void playerDropItem(PlayerDropItemEvent event) {
 		if (event.getItemDrop().getItemStack().getType() == Material.COMPASS) {
